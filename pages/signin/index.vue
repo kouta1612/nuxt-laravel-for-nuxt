@@ -16,6 +16,7 @@
 
 <script lang="ts">
 import { defineComponent, reactive } from '@vue/composition-api'
+
 export default defineComponent({
     setup(props, { root }) {
         const user = reactive({
@@ -23,12 +24,10 @@ export default defineComponent({
             password: ''
         })
         const handleLogin = async () => {
-            const result = await root.$axios.$post('/api/signin', user)
-                .then(response => response.isSuccess)
-                .catch(error => {
-                    console.log(error)
-                    return false
-                });
+            const result = await root.$store.dispatch('signin', user)
+            user.email = ''
+            user.password = ''
+            console.log(result ? 'login success' : 'not login')
             if (result) {
                 root.$router.push('/admin')
             }
