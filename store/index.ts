@@ -22,8 +22,8 @@ export const mutations = {
 export const actions = {
     async nuxtServerInit (context: { commit: (arg0: string, arg1: boolean) => void }) {
         await $axios.$get('/api/authenticated-check')
-            .then(() => {
-                context.commit('setIsAuthenticated', true)
+            .then((response) => {
+                context.commit('setIsAuthenticated', response.isAuthenticated)
             })
             .catch((error) => {
                 context.commit('setIsAuthenticated', false)

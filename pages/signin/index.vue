@@ -18,6 +18,7 @@
 import { defineComponent, reactive } from '@vue/composition-api'
 
 export default defineComponent({
+    middleware: 'authenticatedRedirect',
     setup(props, { root }) {
         const user = reactive({
             email: '',
