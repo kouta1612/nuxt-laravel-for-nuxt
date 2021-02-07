@@ -16,6 +16,9 @@
 
 <script lang="ts">
 import { defineComponent, reactive } from '@vue/composition-api'
+import { getModule } from 'vuex-module-decorators'
+import Authentication from '@/store/modules/authentication'
+import { store } from '@/store'
 
 export default defineComponent({
     middleware: 'authenticatedRedirect',
@@ -25,10 +28,10 @@ export default defineComponent({
             password: ''
         })
         const handleLogin = async () => {
-            const result = await root.$store.dispatch('signin', user)
+            const AuthModule = getModule(Authentication, store)
+            const result = await AuthModule.signin(user)
             user.email = ''
             user.password = ''
-            console.log(result ? 'login success' : 'not login')
             if (result) {
                 root.$router.push('/admin')
             }

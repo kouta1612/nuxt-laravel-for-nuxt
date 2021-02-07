@@ -1,56 +1,29 @@
-import { $axios } from "~/utils/api"
+import Vue from 'vue'
+import Vuex from 'vuex'
+import Authentication from '@/store/modules/authentication'
+import { $axios } from '~/utils/api'
+import { Context } from '@nuxt/types'
+import { getModule } from 'vuex-module-decorators'
 
-// https://typescript.nuxtjs.org/ja/cookbook/store
-// import { Store } from 'vuex'
-// import { initialiseStores } from '~/utils/store-accessor'
+Vue.use(Vuex)
 
-// const initializer = (store: Store<any>) => initialiseStores(store)
-
-// export const plugins = [initializer]
-// export * from '~/utils/store-accessor'
-
-export const state = () => ({
-    isAuthenticated: false
+export const store = new Vuex.Store({
+    modules: {
+        Authentication
+    },
 })
 
-export const mutations = {
-    setIsAuthenticated(state: { isAuthenticated: boolean }, isAuthenticated: boolean) {
-        state.isAuthenticated = isAuthenticated
-    }
-}
-
 export const actions = {
-    async nuxtServerInit (context: { commit: (arg0: string, arg1: boolean) => void }) {
+    async nuxtServerInit (context: Context) {
         await $axios.$get('/api/authenticated-check')
             .then((response) => {
-                context.commit('setIsAuthenticated', response.isAuthenticated)
+                const AuthModule = getModule(Authentication, store)
+                AuthModule.setIsAuthenticated(response.isAuthenticated)
             })
             .catch((error) => {
-                context.commit('setIsAuthenticated', false)
+                const AuthModule = getModule(Authentication, store)
+                AuthModule.setIsAuthenticated(false)
                 console.log(error)
             })
     },
-    async signin(context: { commit: (arg0: string, arg1: boolean) => void }, LoginForm: { email: string, password: string }) {
-        const result = await $axios.$post('/api/signin', LoginForm)
-            .then(() => {
-                context.commit('setIsAuthenticated', true)
-                return true
-            })
-            .catch(error => {
-                context.commit('setIsAuthenticated', false)
-                console.log(error)
-                return false
-            });
-        return result
-    },
-    async logout(context: { commit: (arg0: string, arg1: boolean) => void }) {
-        await $axios.$post('/api/logout')
-            .then(() => {
-                context.commit('setIsAuthenticated', false)
-            })
-            .catch(error => {
-                context.commit('setIsAuthenticated', false)
-                console.log(error)
-            })
-    }
 }
