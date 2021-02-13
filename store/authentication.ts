@@ -24,7 +24,7 @@ export default class Authentication extends VuexModule {
 
     @Action
     async socialLogin(payload: any) {
-        const result = await $axios.$get('/api/google/callback', payload)
+        const result = await $axios.$get('/api/google/callback', { params: payload })
             .then(() => {
                 this.setIsAuthenticated(true)
                 return true
@@ -56,7 +56,7 @@ export default class Authentication extends VuexModule {
     async logout() {
         await $axios.$post('/api/logout')
             .then(() => {
-                this.setIsAuthenticated(true)
+                this.setIsAuthenticated(false)
             })
             .catch(error => {
                 this.setIsAuthenticated(false)
