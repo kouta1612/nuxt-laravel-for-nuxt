@@ -40,6 +40,10 @@ export default {
     credentials: true
   },
 
+  router: {
+    middleware: ["chechAuthenticated"]
+  },
+
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {}
 };

@@ -1,10 +1,14 @@
 <template>
     <div>
         <nuxt-link to="/">HOME</nuxt-link>
-        <nuxt-link to="/signin" v-if="!isAuthenticated">ログイン</nuxt-link>
-        <div  v-else>
+        <nuxt-link to="/admin">Admin</nuxt-link>
+        <div v-if="isLoggedIn">
             <nuxt-link to="/admin">Admin</nuxt-link>
             <button @click.prevent="logout">ログアウト</button>    
+        </div>
+        <div v-else>
+            <nuxt-link to="/signin">ログイン</nuxt-link>
+            <a href="http://localhost:8000/api/google">Google</a>
         </div>
     </div>
 </template>
@@ -16,18 +20,17 @@ import Authentication from '@/store/modules/authentication'
 import { store } from '@/store'
 
 export default defineComponent({
-    setup(props, { root }) {
+    setup(_, { root }) {
         const logout = async () => {
             const AuthModule = getModule(Authentication, store)
             await AuthModule.logout()
             root.$router.push('/')
         }
         const AuthModule = getModule(Authentication, store)
-        AuthModule.checkAuthenticated()
-        const isAuthenticated = computed(() => AuthModule.isAuthenticated)
+        const isLoggedIn = computed(() => AuthModule.isAuthenticated)
         return {
             logout,
-            isAuthenticated
+            isLoggedIn
         }
     },
 })
