@@ -20,7 +20,7 @@ import { authenticationStore } from '@/store'
 
 export default defineComponent({
     middleware: 'authenticatedRedirect',
-    setup(props, { root }) {
+    setup(_, { root }) {
         const user = reactive({
             email: '',
             password: ''

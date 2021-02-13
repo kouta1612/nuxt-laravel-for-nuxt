@@ -24,7 +24,7 @@
 import { defineComponent, reactive } from '@vue/composition-api'
 
 export default defineComponent({
-  setup(props, { root }) {
+  setup(_, { root }) {
     const user = reactive({
       name: '',
       email: '',
