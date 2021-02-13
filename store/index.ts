@@ -1,11 +1,7 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
-import Authentication from '@/store/modules/authentication'
+import { Store } from "vuex";
+import { initialiseStores } from "~/utils/store-accessor";
 
-Vue.use(Vuex)
+const initializer = (store: Store<any>) => initialiseStores(store);
 
-export const store = new Vuex.Store({
-    modules: {
-        Authentication
-    },
-})
+export const plugins = [initializer];
+export * from "~/utils/store-accessor";

@@ -1,7 +1,7 @@
 import { Action, Module, Mutation, VuexModule } from "vuex-module-decorators";
 import { $axios } from "~/utils/api"
 
-@Module({ name: 'Authentication', stateFactory: true, namespaced: true })
+@Module({ name: 'authentication', stateFactory: true, namespaced: true })
 export default class Authentication extends VuexModule {
     isAuthenticated = false
 
@@ -20,6 +20,21 @@ export default class Authentication extends VuexModule {
                 this.setIsAuthenticated(false)
                 console.log(error)
             })
+    }
+
+    @Action
+    async socialLogin(payload: any) {
+        const result = await $axios.$get('/api/google/callback', payload)
+            .then(() => {
+                this.setIsAuthenticated(true)
+                return true
+            })
+            .catch(error => {
+                this.setIsAuthenticated(false)
+                console.log(error)
+                return false
+            })
+        return result
     }
 
     @Action

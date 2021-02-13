@@ -1,8 +1,5 @@
-import { getModule } from "vuex-module-decorators";
-import { store } from "@/store";
-import Authentication from "@/store/modules/authentication";
+import { authenticationStore } from '@/store'
 
 export default async function () {
-    const AuthModule = getModule(Authentication, store)
-    await AuthModule.checkAuthenticated()
+    await authenticationStore.checkAuthenticated()
 }

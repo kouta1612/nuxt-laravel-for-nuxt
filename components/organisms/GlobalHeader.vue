@@ -15,19 +15,15 @@
 
 <script lang="ts">
 import { computed, defineComponent } from '@vue/composition-api'
-import { getModule } from 'vuex-module-decorators'
-import Authentication from '@/store/modules/authentication'
-import { store } from '@/store'
+import { authenticationStore } from '~/store'
 
 export default defineComponent({
     setup(_, { root }) {
         const logout = async () => {
-            const AuthModule = getModule(Authentication, store)
-            await AuthModule.logout()
+            await authenticationStore.logout()
             root.$router.push('/')
         }
-        const AuthModule = getModule(Authentication, store)
-        const isLoggedIn = computed(() => AuthModule.isAuthenticated)
+        const isLoggedIn = computed(() => authenticationStore.isAuthenticated)
         return {
             logout,
             isLoggedIn

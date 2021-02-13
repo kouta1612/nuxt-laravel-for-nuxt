@@ -1,11 +1,8 @@
 import { Context } from "@nuxt/types"
-import { getModule } from "vuex-module-decorators"
-import { store } from "@/store"
-import Authentication from "@/store/modules/authentication"
+import { authenticationStore } from '@/store'
 
 export default function(context: Context) {
-    const AuthModule = getModule(Authentication, store)
-    if (AuthModule.isAuthenticated) {
+    if (authenticationStore.isAuthenticated) {
         return context.redirect('/')
     }
 }
