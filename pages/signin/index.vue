@@ -15,20 +15,15 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive } from '@vue/composition-api'
-import { authenticationStore } from '@/store'
+import { defineComponent } from '@vue/composition-api'
+import useAuthentication from '@/composables/authenticator'
 
 export default defineComponent({
     middleware: 'authenticatedRedirect',
     setup(_, { root }) {
-        const user = reactive({
-            email: '',
-            password: ''
-        })
+        const { user, login } = useAuthentication()
         const handleLogin = async () => {
-            const result = await authenticationStore.signin(user)
-            user.email = ''
-            user.password = ''
+            const result = await login()
             if (result) {
                 root.$router.push('/admin')
             }
