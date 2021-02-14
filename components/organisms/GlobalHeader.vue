@@ -4,7 +4,7 @@
         <nuxt-link to="/admin">Admin</nuxt-link>
         <div v-if="isLoggedIn">
             <nuxt-link to="/admin">Admin</nuxt-link>
-            <button @click.prevent="logout">ログアウト</button>    
+            <ActionButton value="ログアウト" :onClick="logout" />
         </div>
         <div v-else>
             <nuxt-link to="/signin">ログイン</nuxt-link>
@@ -16,8 +16,10 @@
 <script lang="ts">
 import { computed, defineComponent } from '@vue/composition-api'
 import { authenticationStore } from '~/store'
+import ActionButton from '../atoms/ActionButton.vue'
 
 export default defineComponent({
+  components: { ActionButton },
     setup(_, { root }) {
         const logout = async () => {
             await authenticationStore.logout()

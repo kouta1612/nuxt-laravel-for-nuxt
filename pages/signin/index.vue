@@ -9,7 +9,7 @@
                 <label for="password">パスワード</label>
                 <input type="password" id="password" v-model="user.password">
             </div>
-            <button type="submit">ログイン</button>
+            <ActionButton type="submit" value="ログイン" />
         </form>
     </div>
 </template>
@@ -17,8 +17,10 @@
 <script lang="ts">
 import { defineComponent } from '@vue/composition-api'
 import useAuthentication from '@/composables/authenticator'
+import ActionButton from '~/components/atoms/ActionButton.vue'
 
 export default defineComponent({
+  components: { ActionButton },
     middleware: 'authenticatedRedirect',
     setup(_, { root }) {
         const { user, login } = useAuthentication()
