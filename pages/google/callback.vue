@@ -1,8 +1,10 @@
 <template>
     <div>
-        コールバックではvuexのactionでsocialログイン処理をしてから
-        ログイン状態をコミットする
-        dispatch自体はこのscriptタグで呼び出す
+        setCookieされないからソーシャルログインうまく行かない
+        ID/PWログインの方はCSRでやっているからうまくいき、Socialログインの方はSSRでやっているからうまく行かない可能性あり
+        nuxt/axiosのBaseURL(SSR時に採用),BrowserBaseURL(CSR時に採用)に関して考慮が必要そう
+        SSRではリロード時に起動されない(redirectで遷移されたら起動される)
+        => Set-Cookieしたらうまくいった
     </div>
 </template>
 
@@ -14,7 +16,6 @@ export default defineComponent({
     async asyncData({query, redirect}) {
         const result = await authenticationStore.socialLogin(query)
         if (result) {
-            await authenticationStore.checkAuthenticated()
             return redirect('/admin')
         }
     },

@@ -13,13 +13,14 @@
     "@nuxtjs/axios": "^5.12.5",
     "@vue/composition-api": "^1.0.0-rc.1",
     "core-js": "^3.8.3",
+    "lodash.foreach": "^4.5.0",
     "nuxt": "^2.14.12",
-    "vue": "^2.6.12",
-    "vuex": "^3.6.2",
     "vuex-module-decorators": "^1.0.1"
   },
   "devDependencies": {
     "@nuxt/types": "^2.14.12",
-    "@nuxt/typescript-build": "^2.0.4"
+    "@nuxt/typescript-build": "^2.0.4",
+    "@nuxtjs/dotenv": "^1.4.1",
+    "@types/lodash.foreach": "^4.5.6"
   }
 }
